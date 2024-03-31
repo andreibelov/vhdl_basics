@@ -1,3 +1,16 @@
+--------------------------------------------------------------------------------
+-- Class: EE 271
+-- Author: Andrei Belov
+--
+-- Create Date: 02/02/2024 01:04:13 AM
+-- Design Name: data_reg.vhd
+-- Module Name: Data_Reg
+-- Project Name: vhdl_basics
+-- Description: simple Data_Reg implementation
+-- Additional Comments:
+--
+--------------------------------------------------------------------------------
+
 -- Entity
 entity Data_Reg is port (
   clk, reset, load : in  std_logic;

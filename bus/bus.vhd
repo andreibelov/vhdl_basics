@@ -1,3 +1,16 @@
+--------------------------------------------------------------------------------
+-- Class: EE 271
+-- Author: Andrei Belov
+--
+-- Create Date: 02/02/2024 01:04:13 AM
+-- Design Name: bus.vhd
+-- Module Name: bus_js
+-- Project Name: vhdl_basics
+-- Description: simple alu implementation
+-- Additional Comments:
+--
+--------------------------------------------------------------------------------
+
 -- Entity
 entity bus_js is port (
   A     : in    std_logic_vector(4 downto 0);

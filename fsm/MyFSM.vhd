@@ -1,3 +1,16 @@
+--------------------------------------------------------------------------------
+-- Class: EE 271
+-- Author: Andrei Belov
+--
+-- Create Date: 02/02/2024 01:04:13 AM
+-- Design Name: MyFSM.vhd
+-- Module Name: MyFSM
+-- Project Name: vhdl_basics
+-- Description:
+-- Additional Comments:
+--
+--------------------------------------------------------------------------------
+
 -- Use standard IEEE library
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;

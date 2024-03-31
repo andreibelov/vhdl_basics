@@ -1,3 +1,16 @@
+--------------------------------------------------------------------------------
+-- Class: EE 271
+-- Author: Andrei Belov
+--
+-- Create Date: 02/02/2024 01:04:13 AM
+-- Design Name: ALU.vhd
+-- Module Name: ALU
+-- Project Name: vhdl_basics
+-- Description: simple alu implementation
+-- Additional Comments:
+--
+--------------------------------------------------------------------------------
+
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
