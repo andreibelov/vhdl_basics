@@ -21,25 +21,40 @@ ENTITY compare4 IS PORT (
 	agtb, aeqb, altb : OUT STD_LOGIC);
 END compare4;
 
-ARCHITECTURE a OF compare4 IS
-	SIGNAL compare : STD_LOGIC_VECTOR (2 downto 0);
-BEGIN
+architecture a of compare4 is
+	signal compare : std_logic_vector (2 downto 0);
+begin
 	-- Since VHDL allows inputs to be represented as integers,
 	-- we can define the required size of inputs A and B and
 	-- compare them using IF statements
-	PROCESS (a, b)
-	BEGIN
-		IF (a < b) THEN
-			compare <= "110";
-		ELSIF (a = b) THEN
-			compare <= "101";
-		ELSIF (a > b) THEN
-			compare <= "011";
-		ELSE
-			compare <= "111";
-		END IF;
-		agtb <= compare(2);
-		aeqb <= compare(1);
-		altb <= compare(0);
-	END PROCESS;
-END ARCHITECTURE a;
+	-- 	-- Combinational Process Statement
+	-- 	compare:
+	-- 		process (A, B)
+	-- 			-- Declaration(s)
+	-- 		begin
+	-- 			if (A < B) then
+	-- 				comp <= "001";
+	-- 			elsif (A = B) then
+	-- 				comp <= "010";
+	-- 			elsif (A > B) then
+	-- 				comp <= "100";
+	-- 			else
+	-- 				comp <= "000";
+	-- 			end if;
+	-- 			AGTB <= comp(2);
+	-- 			AEQB <= comp(1);
+	-- 			ALTB <= comp(0);
+	-- 		end process;
+
+	-- Conditional Signal Assignmens
+	compare <=
+		"001" when (A < B) else
+		"010" when (A = B) else
+		"100" when (A > B) else
+		"000";
+
+	-- Concurrent Signal Assignments
+	AGTB <= compare(2);
+	AEQB <= compare(1);
+	ALTB <= compare(0);
+end architecture a;

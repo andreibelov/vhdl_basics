@@ -16,32 +16,56 @@
 --  in this VHDL code, except that the inputs have a range of 0 to 4095.
 --------------------------------------------------------------------------------
 
--- Use standard IEEE library
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.std_logic_misc.all;
 
-ENTITY compare8 IS PORT(
-	a, b			 : IN INTEGER RANGE 0 TO 255;
-	agtb, aeqb, altb : OUT STD_LOGIC);
-END compare8;
+LIBRARY work;
 
-ARCHITECTURE arch OF compare8 IS
-	SIGNAL compare : STD_LOGIC_VECTOR (2 downto 0);
-BEGIN
-	comp8: PROCESS (a,b)
-	BEGIN
-		IF (a < b) THEN
-			compare <= "110";
-		ELSIF (a = b) THEN
-			compare <= "101";
-		ELSIF (a > b) THEN
-			compare <= "011";
-		ELSE
-			compare <= "111";
-		END IF;
-		agtb  <= compare(2);
-		aeqb  <= compare(1);
-		altb  <= compare(0);
-	END PROCESS comp8;
-END ARCHITECTURE arch;
+entity compare8 is port (
+	-- Input ports
+	A, B :  IN  std_logic_vector(7 downto 0);
+	-- Output ports
+	AEB	 :  OUT  std_logic_vector(7 downto 0);
+	AEQB, AGTB, ALTB :  OUT  STD_LOGIC);
+end compare8;
+
+architecture bdf_type of comp8 is
+
+	component soft port(
+		a_in : in std_logic;
+		a_out : out std_logic);
+	end component;
+
+	SIGNAL	AXNORB :  std_logic_vector(7 downto 0);
+	SIGNAL	AND_AXNORB :  std_logic_vector(7 downto 0);
+	SIGNAL	SOFT_AXNORB :  std_logic_vector(7 downto 0);
+
+begin
+	-- Concurrent Signal Assignments
+	AEB <= SOFT_AXNORB;
+
+	AXNORB <= NOT(A XOR B);
+
+	AEQB <= AND_REDUCE(SOFT_AXNORB(7 downto 0));
+	ALTB <= OR_REDUCE((NOT(A) AND B) AND AND_AXNORB);
+	AGTB <= OR_REDUCE((NOT(B) AND A) AND AND_AXNORB);
+
+	AND_AXNORB(7) <= '1';
+	AND_AXNORB(6) <= AND_AXNORB(7) AND SOFT_AXNORB(7);
+	AND_AXNORB(5) <= AND_AXNORB(6) AND SOFT_AXNORB(6);
+	AND_AXNORB(4) <= AND_AXNORB(5) AND SOFT_AXNORB(5);
+	AND_AXNORB(3) <= AND_AXNORB(4) AND SOFT_AXNORB(4);
+	AND_AXNORB(2) <= AND_AXNORB(3) AND SOFT_AXNORB(3);
+	AND_AXNORB(1) <= AND_AXNORB(2) AND SOFT_AXNORB(2);
+	AND_AXNORB(0) <= AND_AXNORB(1) AND SOFT_AXNORB(1);
+
+	-- Generate Statements
+	gen_soft:
+		for I in 0 to 7 generate
+			-- Component Instantiation Statements
+			uX : soft
+				port map (A_IN => AXNORB(I), A_OUT => SOFT_AXNORB(I));
+		end generate;
+
+end architecture bdf_type; -- of compare8
